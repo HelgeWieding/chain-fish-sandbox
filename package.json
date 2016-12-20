@@ -1,0 +1,22 @@
+{
+  "name": "chain-fish-sandbox",
+  "version": "1.0.0",
+  "description": "poker-api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelgeWieding/chain-fish-sandbox.git"
+  },
+  "keywords": [
+    "poker"
+  ],
+  "author": "Helge Wieding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HelgeWieding/chain-fish-sandbox/issues"
+  },
+  "homepage": "https://github.com/HelgeWieding/chain-fish-sandbox#readme"
+}
