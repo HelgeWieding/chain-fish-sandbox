@@ -7,13 +7,14 @@ const VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
 const SUITS = ['c', 'd', 'h', 's'];
 const RAKE = 0.01;
 
-app.listen(3000, function(err) {
-	console.log("server runnong at port 3000");
+app.listen(3001, function(err) {
+	console.log("server runnong at port 3001");
     if (err) {
         return console.error(err);
     }
 });
 
+// Initial Objects
 var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
                     info: {
                         deck: '',
@@ -29,6 +30,7 @@ var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
 
 var players = [];
 
+// poker related functions
 var shuffle = function() {
     var array = [];
     for (var i = 0; i < 52; i++)
@@ -51,6 +53,11 @@ var findMaxBet = function(lineup) {
 			max = (amount > max) ? amount : max;
   	}
   return max;
+}
+
+var resolveHands = function(hands) { 
+    let hand = solver.Hand;
+    return hand.winners(hands);
 }
 
 app.use(function(req, res, next) {
@@ -79,7 +86,7 @@ app.post('/tables/:tableId/sit', (req, res) => {
     tables[table].lineup[seat] = player;
 })
 
-app.post('/tables/:tableId/bet', (req, res) => { 
+app.post('/tables/:tableId/pay', (req, res) => { 
     // do betting stuff here
     let player = req.player;
 });
@@ -89,11 +96,6 @@ app.post('/show', (req, res) => {
     if (!cards || Object.prototype.toString.call(cards) !== '[object Array]' || cards.length !== 2)
         res.send('cards should be array of 2 cards');
 });
-
-var resolveHands = function(hands) { 
-    let hand = solver.Hand;
-    return hand.winners(hands);
-}
 
 
 
