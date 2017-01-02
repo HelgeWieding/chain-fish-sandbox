@@ -18,7 +18,7 @@ var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
                     info: {
                         deck: '',
                         handId: 0,
-                        lineup: '',
+                        lineup: [],
                         biggestBet: 0,
                         dealer: '',
                         state: 'preflop',
@@ -42,6 +42,24 @@ var shuffle = function() {
     return array;
 }
 
+var findMaxBet = function(lineup) {
+  	var max = 0;
+  	for (var i = 0; i < lineup.length; i++) {
+    	if (!lineup[i].last)
+      		continue;
+    		var amount = EWT.parse(lineup[i].last).values[1];
+			max = (amount > max) ? amount : max;
+  	}
+  return max;
+}
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+// Get tablelist
 app.get('/tables', (req, res) => {
     res.send(tables);
 });
@@ -53,12 +71,12 @@ app.get('/tables/:tableId', (req, res) => {
     res.send(tableInfo);
 });
 
-app.post('/tables/:tableId/join', (req, res) => {
+app.post('/tables/:tableId/sit', (req, res) => {
     // join table
     let table = req.params.tableId;
     let seat = req.seat;
     let player = req.player;
-    tables[table][seat] = player;
+    tables[table].lineup[seat] = player;
 })
 
 app.post('/tables/:tableId/bet', (req, res) => { 
