@@ -29,9 +29,7 @@ var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
 
 var players = [];
 
-
-
-var shuffle = function() 
+var shuffle = function() {
     var array = [];
     for (var i = 0; i < 52; i++)
         array.push(i);
@@ -50,7 +48,7 @@ app.get('/tables', (req, res) => {
 
 app.get('/tables/:tableId', (req, res) => {
     // getting table sample info
-    let tableInfo = tables[req.params.tableId)];
+    let tableInfo = tables[req.params.tableId];
 
     res.send(tableInfo);
 });
