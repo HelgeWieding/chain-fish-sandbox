@@ -14,43 +14,45 @@ app.listen(3000, function(err) {
     }
 });
 
-var tables = [{"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
+var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
                     info: {
-                        
+                        deck: '',
+                        handId: 0,
+                        lineup: '',
+                        biggestBet: 0,
+                        dealer: '',
+                        state: 'preflop',
+                        cards: []
                     }
                 }
-            }];
+            };
 
-// var shuffle = function() 
-//     var array = [];
-//     for (var i = 0; i < 52; i++)
-//         array.push(i);
-//         for (i = array.length - 1; i > 0; i--) {
-//             var j = Math.floor(Math.random() * i);
-//             var temp = array[i];
-//             array[i] = array[j];
-//             array[j] = temp;
-//         }
-//     return array;
-// }
+var players = [];
+
+
+
+var shuffle = function() 
+    var array = [];
+    for (var i = 0; i < 52; i++)
+        array.push(i);
+        for (i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * i);
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    return array;
+}
 
 app.get('/tables', (req, res) => {
     res.send(tables);
 });
 
 app.get('/tables/:tableId', (req, res) => {
-    // sample tableInfo
-    console.log(req.params.tableId);
-    // let tableInfo = {
-    //     handId: 0,
-    //     lineup: '',
-    //     biggestBet: 0,
-    //     dealer: '',
-    //     state: 'preflop',
-    //     cards: []
-    // }
+    // getting table sample info
+    let tableInfo = tables[req.params.tableId)];
 
-    res.send(req.params.tableId);
+    res.send(tableInfo);
 });
 
 app.post('/tables/:tableId/join', (req, res) => {
