@@ -77,6 +77,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(bodyParser.json());
+
 // REST Endpoints
 
 // Get tablelist
@@ -92,6 +94,8 @@ app.get('/tables/:tableId', (req, res) => {
 
 app.post('/tables/:tableId', (req, res) => {
 	// join table
+	console.dir(req);
+	console.log(req.query);
 	if (!req.body) { 
 		res.status(400).send("Request cannot be empty");
 	}
