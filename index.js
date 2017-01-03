@@ -106,7 +106,7 @@ app.post('/tables/:tableId', (req, res) => {
 				tables[table].lineup[seat] = player;
 			}
 		}
-		console.log(res);
+		console.log(tables[table].lineup);
 		res.send(tables[table].lineup);	
 	}
 })
