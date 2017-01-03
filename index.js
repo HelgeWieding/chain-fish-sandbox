@@ -73,7 +73,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // REST Endpoints
 
@@ -90,9 +92,12 @@ app.get('/tables/:tableId', (req, res) => {
 
 app.post('/tables/:tableId', (req, res) => {
 	// join table
+	if (!req.body) { 
+		res.status(400).send("Request cannot be empty");
+	}
+
 	let table = req.params.tableId;
 	let seat = req.body.seatNo;
-	console.log(req.body);
 	let player;
 	if (tables[table].lineup[req.body.seatNo]) { 
 		res.send("Seat already taken");
