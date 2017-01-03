@@ -103,10 +103,10 @@ app.post('/tables/:tableId', (req, res) => {
 				player = { 
 					address: players[i]
 				};	
-				console.log(player);
 				tables[table].lineup[seat] = player;
 			}
 		}
+		console.log(res);
 		res.send(tables[table].lineup);	
 	}
 })
