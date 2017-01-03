@@ -92,6 +92,7 @@ app.post('/tables/:tableId', (req, res) => {
 	// join table
 	let table = req.params.tableId;
 	let seat = req.body.seatNo;
+	console.log(req.body);
 	let player;
 	if (tables[table].lineup[req.body.seatNo]) { 
 		res.send("Seat already taken");
