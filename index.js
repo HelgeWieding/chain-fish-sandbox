@@ -71,14 +71,9 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-});
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+})
 
 app.use(bodyParser.json());
-
 // REST Endpoints
 
 // Get tablelist
@@ -95,29 +90,28 @@ app.get('/tables/:tableId', (req, res) => {
 app.post('/tables/:tableId', (req, res) => {
 	// join table
 	console.dir(req);
-	console.log(req.query);
 	if (!req.body) { 
 		res.status(400).send("Request cannot be empty");
 	}
-
+	
 	let table = req.params.tableId;
 	let seat = req.body.seatNo;
 	let player;
 	if (tables[table].lineup[req.body.seatNo]) { 
-		res.send("Seat already taken");
+		res.send({ error: "Seat already taken"});
 	} else {
 		for (var i = 0; i < players.length; i++) {
 			if (inLineup(tables[table].lineup, players[i])) { 
-				continue;
+			continue;
 			} else {
 				player = { 
 					address: players[i]
 				};	
 				tables[table].lineup[seat] = player;
+				res.send({ seatedAt: i });
+				break;
 			}
-		}
-		console.log(tables[table].lineup);
-		res.send(tables[table].lineup);	
+		}	
 	}
 })
 
