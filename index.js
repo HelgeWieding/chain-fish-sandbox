@@ -23,7 +23,8 @@ var tables = {"0xf3beac30c498d9e26865f34fcaa57dbb935b0d74": {
 					biggestBet: 0,
 					dealer: '',
 					state: 'preflop',
-					cards: []
+					cards: [],
+					seats: 6
 				}
 			};
 
@@ -44,10 +45,10 @@ var shuffle = function() {
 }
 
 var inLineup = function(lineup, player) {
-  for (var i = 0; i < lineup.length; i++)
-    if (lineup[i] && lineup[i].address == player)
-      return true;
-  return false;
+	for (var i = 0; i < lineup.length; i++)
+	if (lineup[i] && lineup[i].address == player)
+      	return true;
+	return false;
 }
 
 var findMaxBet = function(lineup) {
@@ -55,10 +56,10 @@ var findMaxBet = function(lineup) {
 	for (var i = 0; i < lineup.length; i++) {
 		if (!lineup[i].last)
 			continue;
-   //  		var amount = EWT.parse(lineup[i].last).values[1];
+     		//var amount = EWT.parse(lineup[i].last).values[1];
 			// max = (amount > max) ? amount : max;
 	}
-  return max;
+	return max;
 }
 
 var resolveHands = function(hands) { 
@@ -71,7 +72,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-})
+});
 
 app.use(bodyParser.json());
 // REST Endpoints
@@ -89,35 +90,23 @@ app.get('/tables/:tableId', (req, res) => {
 
 app.post('/tables/:tableId', (req, res) => {
 	// join table
-	console.dir(req);
 	if (!req.body) { 
 		res.status(400).send("Request cannot be empty");
 	}
 	
 	let table = req.params.tableId;
 	let seat = req.body.seatNo;
-	let player;
-	if (tables[table].lineup[req.body.seatNo]) { 
-		res.send({ error: "Seat already taken"});
-	} else {
-		for (var i = 0; i < players.length; i++) {
-			if (inLineup(tables[table].lineup, players[i])) { 
-			continue;
-			} else {
-				player = { 
-					address: players[i]
-				};	
-				tables[table].lineup[seat] = player;
-				res.send({ seatedAt: i });
-				break;
-			}
-		}	
-	}
-})
+	let player = req.player;
+	if (tables[table].lineup[seat] || inLineup(tables[table].lineup, player)) { 
+		res.send({ seatedAt: -1 });
+	else
+		res.send({ seatedAt: seat });
+});
 
 app.post('/tables/:tableId/pay', (req, res) => { 
 	// do betting stuff here
 	let player = req.player;
+
 });
 
 app.post('/show', (req, res) => { 
